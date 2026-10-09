@@ -45,11 +45,76 @@
     .hero-portrait{position:absolute;right:4vw;bottom:0;width:min(43vw,560px);max-height:78%;object-fit:contain;object-position:bottom right;z-index:0;pointer-events:none}.hero>*:not(.hero-portrait){position:relative;z-index:1}.software-icon.capcut b{overflow:hidden;background:#f2f0e7}.software-icon.capcut b img{width:72%;height:72%;object-fit:contain;display:block}@media(max-width:800px){.hero-portrait{opacity:.42;width:78vw;right:-15vw;max-height:62%}}
     /* Hero portrait scale requested: taller than the headline, anchored to the section base. */
     .hero-portrait{right:-9vw;bottom:0;width:auto;height:88%;max-height:none;z-index:0}
-  </style>
+    /* Annotated refinements only. */
+    .hero-portrait{right:-14vw!important}.hero .intro{text-shadow:0 3px 13px rgba(0,0,0,.82),0 1px 2px rgba(0,0,0,.9)}
+    #work .works{gap:48px 16px!important}#work .works .card:not(.long-form),#work .works .card:not(.long-form):not(:nth-child(4n+1)){width:100%!important;margin-left:0!important}#work .works:has(.card:hover) .card:not(:hover){transform:translateY(8px) scale(.955)!important;filter:brightness(.58)!important;z-index:0}#work .works .card:hover{transform:translateY(-14px) scale(1.035)!important;filter:brightness(1.17)!important;z-index:20!important}
+    .contact{background:linear-gradient(180deg,#11110f 0%,#11110f 9%,var(--clay) 28%,var(--clay) 100%)!important}.signal-text{display:inline-block;animation:signal-noise 1.55s steps(2,end) infinite;text-shadow:2px 0 rgba(255,240,230,.35),-2px 0 rgba(96,37,24,.3)}@keyframes signal-noise{0%,84%,100%{transform:translate(0);filter:none}85%{transform:translate(-2px,1px) skewX(-2deg);filter:blur(.25px)}88%{transform:translate(3px,-1px) skewX(2deg)}91%{transform:translate(-1px,0)}}
+    /* Annotated card and button refinements only. */
+    #work .works .card:after{display:none!important}#work .works .card .watch{font-size:0!important}#work .works .card .watch::after{content:'WATCH NOW ↗';font:800 12px Manrope,Arial,sans-serif;letter-spacing:.08em}#work .works .card:before{opacity:.22!important}#work .works .card:hover:before{opacity:.48!important}#work .works .card:hover{filter:brightness(1.25) contrast(1.12)!important}#work .works .card .card-caption{font-size:10px!important;font-weight:800!important;letter-spacing:.1em!important;color:#e5d8cc!important}
+    .hero .button:hover,.contact .button:hover{background:#631f2a!important;color:#fff!important;border-color:#631f2a!important}
+/* Commented refinements: brighter work imagery, no hero eyebrow, subtle gold glitter. */
+#work .works .card:before { opacity: .35 !important; }
+#work .works .card:hover:before { opacity: .18 !important; }
+#work .works .card { filter: brightness(1.12) contrast(1.08) !important; }
+#work .works .card:hover { filter: brightness(1.26) contrast(1.12) !important; }
+
+.hero .eyebrow,
+.hero .kicker,
+.hero [class*="eyebrow"],
+.hero [class*="kicker"] { display: none !important; }
+
+.hero { isolation: isolate; }
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .42;
+  background-image:
+    radial-gradient(circle at 12% 26%, rgba(222,177,80,.9) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 29% 70%, rgba(244,205,116,.7) 0 1.3px, transparent 2px),
+    radial-gradient(circle at 47% 18%, rgba(233,189,91,.75) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 69% 60%, rgba(242,209,134,.72) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 87% 30%, rgba(219,166,71,.8) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 94% 78%, rgba(244,205,116,.66) 0 1.3px, transparent 2px);
+  background-size: 310px 280px, 390px 330px, 450px 360px, 340px 310px, 430px 390px, 370px 300px;
+  animation: gold-glitter-drift 20s linear infinite;
+}
+@keyframes gold-glitter-drift {
+  from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+  to { background-position: 35px 110px, -50px 85px, 42px 120px, -35px 95px, 48px 105px, -42px 82px; }
+}
+@media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } }
+.hero::before { z-index: 0; }
+.hero > * { position: relative; z-index: 1; }
+
+/* Restore the original overlapping hero composition above the glitter layer. */
+.hero > .hero-portrait { position: absolute !important; z-index: 2 !important; }
+.hero > h1,
+.hero > .intro,
+.hero > .hero-foot { z-index: 3; }
+
+/* Skills strip requested above the software section. */
+.skills-strip{overflow:hidden;padding:58px 0 62px;border-top:1px solid rgba(244,239,232,.18);border-bottom:1px solid rgba(244,239,232,.18);background:#101315}.skills-strip__head{width:min(1060px,calc(100% - 120px));margin:0 auto 26px;display:flex;justify-content:space-between;align-items:baseline;color:#f2ede6}.skills-strip__head p{margin:0;color:#bdb4ab;font:700 11px/1.2 Manrope,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}.skills-strip__head h2{margin:0;font-size:clamp(38px,4vw,64px);line-height:.96}.skill-lane{display:flex;width:max-content;gap:12px;margin:12px 0;will-change:transform}.skill-lane--left{animation:skills-left 42s linear infinite}.skill-lane--right{animation:skills-right 46s linear infinite}.skill-chip{flex:0 0 auto;padding:14px 20px;border:1px solid rgba(244,239,232,.36);border-radius:999px;color:#f2ede6;background:rgba(235,160,115,.06);font:700 12px/1 Manrope,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.skill-chip:nth-child(3n){border-color:rgba(229,158,112,.75);color:#eba077}.skill-chip:nth-child(4n){background:rgba(244,239,232,.07)}
+@keyframes skills-left{to{transform:translateX(-50%)}}@keyframes skills-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+
+/* A slightly richer, still restrained, gold particle field behind the unchanged hero layout. */
+.hero::before{opacity:.24}.hero-glitter{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}.hero-glitter i{position:absolute;width:3px;height:3px;border-radius:50%;background:#e7b95f;box-shadow:0 0 6px rgba(231,185,95,.55);opacity:.68;transform:translate(-50%,-50%);transition:transform .65s cubic-bezier(.2,.8,.2,1),opacity .35s ease}.hero-glitter i:nth-child(3n){width:2px;height:2px;opacity:.52}
+@media(max-width:680px){.skills-strip{padding:42px 0}.skills-strip__head{width:calc(100% - 40px);display:block}.skills-strip__head p{margin-bottom:12px}}@media(prefers-reduced-motion:reduce){.skill-lane{animation:none}.hero-glitter i{transition:none}}
+
+/* Keep the skills marquee compact and continuous with the section above it. */
+.skills-strip__head{display:none}.skills-strip{padding:26px 0 30px;background:#101315}.section:has(+ .skills-strip){padding-bottom:34px!important;background:#101315!important}
+
+/* Preserve the requested ~65% card-image presence even when an image has its own filter. */
+#work .works .card img,
+#work .works .card picture,
+#work .works .card .card-media { filter: brightness(1.65) contrast(1.12) !important; }
+</style>
 </head>
 <body><main class="page">
   <header class="nav"><div class="brand">TRAN HUONG / VIDEO EDITOR</div><nav><a href="#work">Selected Work</a> &nbsp; <a href="#contact">Contact</a></nav></header>
-  <section class="hero"><div class="eyebrow">Beauty · Nail · Spa · Social-first video</div><h1><span class="pop-word">Stories</span> <span class="pop-word">that</span><br><i><span class="pop-word">stay</span> <span class="pop-word">with</span> <span class="pop-word">you.</span></i></h1><img class="hero-portrait" src="pref/photo-cutout.png" alt="Tran Huong" /><p class="intro">I create short-form video that helps beauty and service brands capture attention, explain their value clearly, and turn viewers into customers.</p><div class="hero-foot"><span class="scroll">Scroll to view selected work ↓</span><a class="button" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1RznOAn5t32HVD0Tby2-uRc3ype3trhY9/view?usp=sharing">View résumé</a></div></section>
+  <section class="hero"><div class="eyebrow">Beauty · Nail · Spa · Social-first video</div><h1><span class="pop-word">Stories</span> <span class="pop-word">that</span><br><i><span class="pop-word">stay</span> <span class="pop-word">with</span> <span class="pop-word">you.</span></i></h1><img class="hero-portrait" src="assets/tran-huong-cutout.png" alt="Tran Huong" /><p class="intro">I create short-form video that helps beauty and service brands capture attention, explain their value clearly, and turn viewers into customers.</p><div class="hero-foot"><span class="scroll">Scroll to view selected work ↓</span><a class="button" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1RznOAn5t32HVD0Tby2-uRc3ype3trhY9/view?usp=sharing">View résumé</a></div></section>
   <section class="section" id="work"><div class="section-head"><div><div class="label">01 / Selected work</div><h2>Built for the first second—and the lasting impression.</h2></div><p class="lede">Hook-led, social-first edits spanning product launches, educational content, brand stories, and AI-enhanced visuals.</p></div><div class="works">
     <a class="card" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/17OkOef187QdrfkpJgdlxpNptMY-uZiHg/view?usp=sharing"><span class="number">01</span><div class="tag">Hook-driven education</div><h3>Brush-Cleaning Wax</h3><p>A dynamic product demonstration designed to hold attention and communicate value clearly.</p><div class="watch">Watch project ↗</div></a>
     <a class="card" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1-kVEUw0zRyz5Gk-Ab9iIsvnD5HV1s3xI/view?usp=sharing"><span class="number">02</span><div class="tag">Brand storytelling</div><h3>Brand Introduction</h3><p>A narrative-led social film balancing visual rhythm, emotion and brand personality.</p><div class="watch">Watch project ↗</div></a>
@@ -61,7 +126,7 @@
     <a class="card" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/12-WAnTKS-MoKvf2VWhXmRcTfWgNCoxvI/view?usp=sharing"><span class="number">08</span><div class="tag">AI-assisted explainer</div><h3>Illustration Video</h3><p>A concept-led visual story using AI illustration as a memorable narrative tool.</p><div class="watch">Watch project ↗</div></a>
   </div></section>
   <section class="section"><div class="section-head"><div><div class="label">02 / What I create</div><h2>Built to move, explain and be remembered.</h2></div><p class="lede">Six content directions for beauty brands, founders and service businesses.</p></div><div class="services services-six"><article class="service service-phone"><div class="label">A / Social</div><h3>Stops the scroll</h3><p>Hook-driven Reels, TikToks and founder-led content with clear, natural pacing.</p></article><article class="service service-bottle"><div class="label">B / Beauty</div><h3>Beauty & service stories</h3><p>Product demos, launches, salon and spa showcases that build trust.</p></article><article class="service service-building"><div class="label">C / Tracking</div><h3>Spaces with a story</h3><p>Visual tours and service-led content that makes a place feel memorable.</p></article><article class="service service-cutout"><div class="label">D / Chroma key</div><h3>Background removal</h3><p>Clean cut-outs and product-led compositions for more flexible visuals.</p></article><article class="service service-type"><div class="label">E / Motion text</div><h3>Words in motion</h3><p>Text animation that gives a message timing, emphasis and personality.</p></article><article class="service service-ai"><div class="label">F / AI create</div><h3>AI-enhanced ideas</h3><p>AI visuals and illustrative treatments that make content more distinct.</p></article></div></section>
-  <section class="section"><div class="label">03 / Software</div><h2 class="software-title">The tools behind the edit.</h2><div class="software-icons"><div class="software-icon pr"><b>Pr</b><span>Premiere Pro</span></div><div class="software-icon ps"><b>Ps</b><span>Photoshop</span></div><div class="software-icon davinci"><b>◒</b><span>DaVinci Resolve</span></div><div class="software-icon capcut"><b><img src="pref/logo%20capcut.png" alt="CapCut" /></b><span>CapCut</span></div><div class="software-icon canva"><b>Canva</b><span>Canva</span></div><div class="software-icon ai"><b>AI</b><span>AI Visuals</span></div></div></section>
+  <section class="section"><div class="label">03 / Software</div><h2 class="software-title">The tools behind the edit.</h2><div class="software-icons"><div class="software-icon pr"><b>Pr</b><span>Premiere Pro</span></div><div class="software-icon ps"><b>Ps</b><span>Photoshop</span></div><div class="software-icon davinci"><b>◒</b><span>DaVinci Resolve</span></div><div class="software-icon capcut"><b><img src="assets/capcut-logo.png" alt="CapCut" /></b><span>CapCut</span></div><div class="software-icon canva"><b>Canva</b><span>Canva</span></div><div class="software-icon ai"><b>AI</b><span>AI Visuals</span></div></div></section>
   <section class="contact" id="contact"><div><div class="label" style="color:#422419">04 / Available remotely</div><h2>Let’s make content worth remembering.</h2></div><div><p>I’m interested in working with nail artists, salons, spas, beauty founders and product brands across the world.</p><div class="contact-links"><a class="button" href="mailto:YOUR-EMAIL-HERE">Email me</a><a class="button" href="#" aria-label="Add your Instagram link">Instagram</a></div></div></section>
   <footer class="footer"><span>© 2026 Tran Huong</span><span>Vietnam · Available remotely</span></footer>
 </main><script>
@@ -86,4 +151,55 @@
     icons.forEach(icon => icon.classList.remove('launch'));
     requestAnimationFrame(() => icons.forEach((icon, index) => setTimeout(() => icon.classList.add('launch'), index * 180)));
   }), {threshold:.35}).observe(softwareIcons);
+  const contactTitle = document.querySelector('.contact h2');
+  if (contactTitle && !contactTitle.querySelector('.signal-text')) contactTitle.innerHTML = contactTitle.innerHTML.replace('worth remembering.', '<span class="signal-text">worth remembering.</span>');
+document.querySelector('.contact-links a[aria-label="Add your Instagram link"]')?.remove();
+
+/* Add only the annotated skills marquee before the existing Software section. */
+const softwareSection = document.querySelector('.software-icons')?.closest('section');
+if (softwareSection && !document.querySelector('.skills-strip')) {
+  const skills = ['Heading','Motion subtitles','Effects','Color grading','Social elements','Casual slider','Accordion','Animation','Tracking','Background removal','Hooks','AI enhanced','Illustration','Design','Teamwork','Patience','Time management','Background music','Music effects','Voice enhancement','Layout'];
+  const makeSkillLane = (items, direction) => `<div class="skill-lane skill-lane--${direction}">${[...items, ...items].map(item => `<span class="skill-chip">${item}</span>`).join('')}</div>`;
+  const skillsStrip = document.createElement('section');
+  skillsStrip.className = 'skills-strip';
+  skillsStrip.setAttribute('aria-label', 'Skills');
+  skillsStrip.innerHTML = `<div class="skills-strip__head"><p>03 / Skills</p><h2>Tools in motion.</h2></div>${makeSkillLane(skills.slice(0, 7), 'left')}${makeSkillLane(skills.slice(7, 14), 'right')}${makeSkillLane(skills.slice(14), 'left')}`;
+  softwareSection.insertAdjacentElement('beforebegin', skillsStrip);
+}
+
+/* Moderate gold glitter disperses from the pointer without affecting hero layout. */
+const heroGlitterHost = document.querySelector('.hero');
+if (heroGlitterHost && !heroGlitterHost.querySelector('.hero-glitter')) {
+  const heroGlitter = document.createElement('div');
+  heroGlitter.className = 'hero-glitter';
+  const glitterParticles = Array.from({ length: 38 }, (_, index) => {
+    const dot = document.createElement('i');
+    const x = (index * 37 + 11) % 96 + 2;
+    const y = (index * 53 + 17) % 92 + 4;
+    dot.style.left = `${x}%`;
+    dot.style.top = `${y}%`;
+    dot.dataset.x = x;
+    dot.dataset.y = y;
+    heroGlitter.appendChild(dot);
+    return dot;
+  });
+  heroGlitterHost.prepend(heroGlitter);
+  heroGlitterHost.addEventListener('pointermove', event => {
+    const bounds = heroGlitterHost.getBoundingClientRect();
+    const mouseX = ((event.clientX - bounds.left) / bounds.width) * 100;
+    const mouseY = ((event.clientY - bounds.top) / bounds.height) * 100;
+    glitterParticles.forEach(dot => {
+      const dx = Number(dot.dataset.x) - mouseX;
+      const dy = Number(dot.dataset.y) - mouseY;
+      const distance = Math.hypot(dx, dy);
+      const force = Math.max(0, 1 - distance / 18) * 32;
+      dot.style.transform = `translate(calc(-50% + ${dx / (distance || 1) * force}px), calc(-50% + ${dy / (distance || 1) * force}px))`;
+      dot.style.opacity = distance < 18 ? '.92' : '';
+    });
+  });
+  heroGlitterHost.addEventListener('pointerleave', () => glitterParticles.forEach(dot => {
+    dot.style.transform = 'translate(-50%, -50%)';
+    dot.style.opacity = '';
+  }));
+}
 </script></body></html>
