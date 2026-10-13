@@ -93,7 +93,18 @@
 .hero > .hero-portrait { position: absolute !important; z-index: 2 !important; }
 .hero > h1,
 .hero > .intro,
+
 .hero > .hero-foot { z-index: 3; }
+
+/* Published refinements: hero stacking, project names, and letter-by-letter motion. */
+.hero h1,.hero .hero-title{position:relative!important;z-index:10!important}
+.hero .hero-portrait{z-index:2!important}
+#work .works .card .card-name{display:block!important;position:absolute!important;top:16px!important;left:16px!important;right:auto!important;bottom:auto!important;z-index:50!important;max-width:calc(100% - 32px);padding:7px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(10,12,13,.68);color:#f5efe8;font:800 10px/1 Manrope,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;backdrop-filter:blur(5px);opacity:1!important;visibility:visible!important;transform:none!important}
+.hero h1>span.pop-word:first-child,.hero h1>i>span.pop-word:first-child{display:inline-block;opacity:1!important;visibility:visible!important;transform:none!important;vertical-align:baseline!important;line-height:inherit!important;animation:none!important}
+.hero .pop-letter{display:inline-block;opacity:1!important;visibility:visible!important;vertical-align:baseline;line-height:inherit;animation:letter-bounce 2.15s cubic-bezier(.34,1.56,.64,1) infinite;animation-delay:calc(var(--letter-index)*.09s);will-change:transform}
+@keyframes letter-bounce{0%,18%,100%{transform:translateY(0) rotate(0)}7%{transform:translateY(-7px) rotate(-.8deg)}12%{transform:translateY(1px) rotate(.35deg)}}
+@media(prefers-reduced-motion:reduce){.hero .pop-letter{animation:none}}
+
 
 /* Skills strip requested above the software section. */
 .skills-strip{overflow:hidden;padding:58px 0 62px;border-top:1px solid rgba(244,239,232,.18);border-bottom:1px solid rgba(244,239,232,.18);background:#101315}.skills-strip__head{width:min(1060px,calc(100% - 120px));margin:0 auto 26px;display:flex;justify-content:space-between;align-items:baseline;color:#f2ede6}.skills-strip__head p{margin:0;color:#bdb4ab;font:700 11px/1.2 Manrope,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}.skills-strip__head h2{margin:0;font-size:clamp(38px,4vw,64px);line-height:.96}.skill-lane{display:flex;width:max-content;gap:12px;margin:12px 0;will-change:transform}.skill-lane--left{animation:skills-left 42s linear infinite}.skill-lane--right{animation:skills-right 46s linear infinite}.skill-chip{flex:0 0 auto;padding:14px 20px;border:1px solid rgba(244,239,232,.36);border-radius:999px;color:#f2ede6;background:rgba(235,160,115,.06);font:700 12px/1 Manrope,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.skill-chip:nth-child(3n){border-color:rgba(229,158,112,.75);color:#eba077}.skill-chip:nth-child(4n){background:rgba(244,239,232,.07)}
@@ -154,6 +165,45 @@
   const contactTitle = document.querySelector('.contact h2');
   if (contactTitle && !contactTitle.querySelector('.signal-text')) contactTitle.innerHTML = contactTitle.innerHTML.replace('worth remembering.', '<span class="signal-text">worth remembering.</span>');
 document.querySelector('.contact-links a[aria-label="Add your Instagram link"]')?.remove();
+
+/* Animate only Stories and stay, one letter at a time. */
+[
+  document.querySelector('.hero h1 > span.pop-word:first-child'),
+  document.querySelector('.hero h1 > i > span.pop-word:first-child')
+].filter(Boolean).forEach(word => {
+  if (word.dataset.letterAnimation === 'ready') return;
+  const text = word.textContent;
+  word.textContent = '';
+  [...text].forEach((character, index) => {
+    const letter = document.createElement('span');
+    letter.className = 'pop-letter';
+    letter.style.setProperty('--letter-index', index);
+    letter.textContent = character;
+    word.appendChild(letter);
+  });
+  word.dataset.letterAnimation = 'ready';
+});
+
+/* Section 01 links, persistent image labels, and card 04 copy. */
+const selectedWorkCards = [...document.querySelectorAll('#work .works .card:not(.long-form)')].slice(0, 8);
+const selectedWorkNames = ['01 — Cleaning Wax','02 — La Caja Buena','03 — Spa Space','04 — Founder','05 — Highlighter','06 — Blush','07 — AI Caption','08 — Illustration Video'];
+selectedWorkCards.forEach((card, index) => {
+  if (!card.querySelector('.card-name')) {
+    const name = document.createElement('span');
+    name.className = 'card-name';
+    name.textContent = selectedWorkNames[index];
+    card.appendChild(name);
+  }
+});
+if (selectedWorkCards[3]) selectedWorkCards[3].href = 'https://drive.google.com/file/d/1QHmmm7GLaL-AyqWQs9UjnJnk9a6NM63r/view?usp=sharing';
+if (selectedWorkCards[4]) selectedWorkCards[4].href = 'https://drive.google.com/file/d/1-brbNOO9ZdcpIQXyj4yUubJCX1POpgG5/view?usp=sharing';
+if (selectedWorkCards[3]?.querySelector('.card-caption')) selectedWorkCards[3].querySelector('.card-caption').textContent = 'FOUNDER INTRODUCTION';
+if (selectedWorkCards[3]) {
+  const productLaunchLabel = [...selectedWorkCards[3].querySelectorAll('*')].find(element => element.children.length === 0 && /PRODUCT\s+LAUNCH/i.test(element.textContent));
+  if (productLaunchLabel) productLaunchLabel.textContent = productLaunchLabel.textContent.replace(/PRODUCT\s+LAUNCH/i, 'BRAND INTRODUCTION');
+  const bodyMistTitle = [...selectedWorkCards[3].querySelectorAll('h2,h3,h4')].find(element => /BODY\s+MIST/i.test(element.textContent));
+  if (bodyMistTitle) bodyMistTitle.textContent = 'Brand Introduction';
+}
 
 /* Add only the annotated skills marquee before the existing Software section. */
 const softwareSection = document.querySelector('.software-icons')?.closest('section');
