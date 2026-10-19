@@ -106,6 +106,10 @@
 @media(prefers-reduced-motion:reduce){.hero .pop-letter{animation:none}}
 
 
+/* Keep projects 01–08 in four columns and long-form projects 09–11 on one row. */
+@media(min-width:801px){#work .works{grid-template-columns:repeat(12,minmax(0,1fr))!important}#work .works>.card:not(.long-form){grid-column:span 3!important}#work .works>.card.long-form{grid-column:span 4!important;width:100%!important}}
+@media(max-width:800px){#work .works{grid-template-columns:1fr!important}#work .works>.card{grid-column:span 1!important}}
+
 /* Skills strip requested above the software section. */
 .skills-strip{overflow:hidden;padding:58px 0 62px;border-top:1px solid rgba(244,239,232,.18);border-bottom:1px solid rgba(244,239,232,.18);background:#101315}.skills-strip__head{width:min(1060px,calc(100% - 120px));margin:0 auto 26px;display:flex;justify-content:space-between;align-items:baseline;color:#f2ede6}.skills-strip__head p{margin:0;color:#bdb4ab;font:700 11px/1.2 Manrope,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}.skills-strip__head h2{margin:0;font-size:clamp(38px,4vw,64px);line-height:.96}.skill-lane{display:flex;width:max-content;gap:12px;margin:12px 0;will-change:transform}.skill-lane--left{animation:skills-left 42s linear infinite}.skill-lane--right{animation:skills-right 46s linear infinite}.skill-chip{flex:0 0 auto;padding:14px 20px;border:1px solid rgba(244,239,232,.36);border-radius:999px;color:#f2ede6;background:rgba(235,160,115,.06);font:700 12px/1 Manrope,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.skill-chip:nth-child(3n){border-color:rgba(229,158,112,.75);color:#eba077}.skill-chip:nth-child(4n){background:rgba(244,239,232,.07)}
 @keyframes skills-left{to{transform:translateX(-50%)}}@keyframes skills-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
@@ -188,18 +192,27 @@ document.querySelector('.contact-links a[aria-label="Add your Instagram link"]')
 const selectedWorkRail = document.querySelector('#work .works');
 if (selectedWorkRail && !selectedWorkRail.querySelector('.cinematic-timeline-card')) {
   const cinematicCard = document.createElement('a');
-  cinematicCard.className = 'card reveal cinematic-timeline-card';
+  cinematicCard.className = 'card reveal long-form cinematic-timeline-card';
   cinematicCard.href = 'https://drive.google.com/file/d/1Iv3C-5pg6v6sxLfrDMvPwrkF00N4S4NS/view?usp=sharing';
   cinematicCard.target = '_blank';
   cinematicCard.rel = 'noreferrer';
   cinematicCard.style.backgroundImage = "linear-gradient(180deg,rgba(8,10,13,.08),rgba(8,10,13,.9)),url('https://drive.google.com/thumbnail?id=1Iv3C-5pg6v6sxLfrDMvPwrkF00N4S4NS&sz=w1200')";
   cinematicCard.style.backgroundSize = 'cover';
   cinematicCard.style.backgroundPosition = 'center';
-  cinematicCard.innerHTML = '<span class="number">09</span><div class="tag">CINEMATIC EDITING</div><h3>Cinematic Timeline</h3><p>A cinematic sequence presented with its editing timeline, revealing the tools, layers and decisions behind the scene.</p><span class="watch">WATCH PROJECT ↗</span><span class="card-name">09 — CINEMATIC TIMELINE</span><span class="card-caption">CINEMATIC EDITING</span>';
-  const firstLongFormCard = selectedWorkRail.querySelector('.long-form');
-  if (firstLongFormCard) firstLongFormCard.insertAdjacentElement('beforebegin', cinematicCard);
-  else selectedWorkRail.appendChild(cinematicCard);
+  cinematicCard.innerHTML = '<span class="number">11</span><div class="tag">LONG-FORM · CINEMATIC EDITING</div><h3>Cinematic Timeline</h3><p>A cinematic sequence over 60 seconds, presented with its editing timeline to reveal the tools, layers and decisions behind the scene.</p><span class="watch">WATCH PROJECT ↗</span><span class="card-name">11 — CINEMATIC TIMELINE</span><span class="card-caption">LONG-FORM CINEMATIC EDITING</span>';
+  selectedWorkRail.appendChild(cinematicCard);
 }
+
+const existingLongFormCards = [...document.querySelectorAll('#work .works .card.long-form:not(.cinematic-timeline-card)')].slice(0, 2);
+['09 — SERVICE GUIDE FILM', '10 — LANGUAGE LEARNING FILM'].forEach((label, index) => {
+  const card = existingLongFormCards[index];
+  if (card && !card.querySelector('.card-name')) {
+    const name = document.createElement('span');
+    name.className = 'card-name';
+    name.textContent = label;
+    card.appendChild(name);
+  }
+});
 
 /* Section 01 links, persistent image labels, and card 04 copy. */
 const selectedWorkCards = [...document.querySelectorAll('#work .works .card:not(.long-form)')].slice(0, 8);
