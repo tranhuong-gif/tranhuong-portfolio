@@ -184,6 +184,23 @@ document.querySelector('.contact-links a[aria-label="Add your Instagram link"]')
   word.dataset.letterAnimation = 'ready';
 });
 
+/* Additional cinematic edit with a visible production-timeline breakdown. */
+const selectedWorkRail = document.querySelector('#work .works');
+if (selectedWorkRail && !selectedWorkRail.querySelector('.cinematic-timeline-card')) {
+  const cinematicCard = document.createElement('a');
+  cinematicCard.className = 'card reveal cinematic-timeline-card';
+  cinematicCard.href = 'https://drive.google.com/file/d/1Iv3C-5pg6v6sxLfrDMvPwrkF00N4S4NS/view?usp=sharing';
+  cinematicCard.target = '_blank';
+  cinematicCard.rel = 'noreferrer';
+  cinematicCard.style.backgroundImage = "linear-gradient(180deg,rgba(8,10,13,.08),rgba(8,10,13,.9)),url('https://drive.google.com/thumbnail?id=1Iv3C-5pg6v6sxLfrDMvPwrkF00N4S4NS&sz=w1200')";
+  cinematicCard.style.backgroundSize = 'cover';
+  cinematicCard.style.backgroundPosition = 'center';
+  cinematicCard.innerHTML = '<span class="number">09</span><div class="tag">CINEMATIC EDITING</div><h3>Cinematic Timeline</h3><p>A cinematic sequence presented with its editing timeline, revealing the tools, layers and decisions behind the scene.</p><span class="watch">WATCH PROJECT ↗</span><span class="card-name">09 — CINEMATIC TIMELINE</span><span class="card-caption">CINEMATIC EDITING</span>';
+  const firstLongFormCard = selectedWorkRail.querySelector('.long-form');
+  if (firstLongFormCard) firstLongFormCard.insertAdjacentElement('beforebegin', cinematicCard);
+  else selectedWorkRail.appendChild(cinematicCard);
+}
+
 /* Section 01 links, persistent image labels, and card 04 copy. */
 const selectedWorkCards = [...document.querySelectorAll('#work .works .card:not(.long-form)')].slice(0, 8);
 const selectedWorkNames = ['01 — Cleaning Wax','02 — La Caja Buena','03 — Spa Space','04 — Founder','05 — Highlighter','06 — Blush','07 — AI Caption','08 — Illustration Video'];
