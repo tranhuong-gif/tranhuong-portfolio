@@ -93,30 +93,116 @@
 .hero > .hero-portrait { position: absolute !important; z-index: 2 !important; }
 .hero > h1,
 .hero > .intro,
-
 .hero > .hero-foot { z-index: 3; }
 
-/* Published refinements: hero stacking, project names, and letter-by-letter motion. */
-.hero h1,.hero .hero-title{position:relative!important;z-index:10!important}
-.hero .hero-portrait{z-index:2!important}
-#work .works .card .card-name{display:block!important;position:absolute!important;top:16px!important;left:16px!important;right:auto!important;bottom:auto!important;z-index:50!important;max-width:calc(100% - 32px);padding:7px 10px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(10,12,13,.68);color:#f5efe8;font:800 10px/1 Manrope,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;backdrop-filter:blur(5px);opacity:1!important;visibility:visible!important;transform:none!important}
-.hero h1>span.pop-word:first-child,.hero h1>i>span.pop-word:first-child{display:inline-block;opacity:1!important;visibility:visible!important;transform:none!important;vertical-align:baseline!important;line-height:inherit!important;animation:none!important}
-.hero .pop-letter{display:inline-block;opacity:1!important;visibility:visible!important;vertical-align:baseline;line-height:inherit;animation:letter-bounce 2.15s cubic-bezier(.34,1.56,.64,1) infinite;animation-delay:calc(var(--letter-index)*.09s);will-change:transform}
-@keyframes letter-bounce{0%,18%,100%{transform:translateY(0) rotate(0)}7%{transform:translateY(-7px) rotate(-.8deg)}12%{transform:translateY(1px) rotate(.35deg)}}
-@media(prefers-reduced-motion:reduce){.hero .pop-letter{animation:none}}
+/* Requested hero stacking correction only: title must stay above the portrait. */
+.hero h1,
+.hero .hero-title { position: relative !important; z-index: 10 !important; }
+.hero .hero-portrait { z-index: 2 !important; }
 
+/* Continuous GIF-like motion for only the two annotated hero words. */
+.hero h1 > span.pop-word:first-child {
+  display: inline-block;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  vertical-align: baseline !important;
+  line-height: inherit !important;
+  transform-origin: 50% 80%;
+  animation: none !important;
+}
+.hero h1 > i > span.pop-word:first-child {
+  display: inline-block;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  vertical-align: baseline !important;
+  line-height: inherit !important;
+  transform-origin: 50% 75%;
+  animation: none !important;
+}
+.hero .pop-letter {
+  display: inline-block;
+  opacity: 1 !important;
+  visibility: visible !important;
+  vertical-align: baseline;
+  line-height: inherit;
+  animation: letter-bounce 2.15s cubic-bezier(.34,1.56,.64,1) infinite;
+  animation-delay: calc(var(--letter-index) * .09s);
+  will-change: transform;
+}
+@keyframes letter-bounce {
+  0%, 18%, 100% { transform: translateY(0) rotate(0); }
+  7% { transform: translateY(-7px) rotate(-.8deg); }
+  12% { transform: translateY(1px) rotate(.35deg); }
+}
+@keyframes stories-loop {
+  0%,100% { transform: translateY(0) rotate(0); filter: brightness(1); }
+  35% { transform: translateY(-7px) rotate(-1deg); filter: brightness(1.08); }
+  65% { transform: translateY(2px) rotate(.6deg); filter: brightness(.98); }
+}
+@keyframes stay-loop {
+  0%,100% { transform: translateY(0) skewX(0deg) scale(1); }
+  30% { transform: translateY(4px) skewX(-2deg) scale(1.025); }
+  65% { transform: translateY(-5px) skewX(1.5deg) scale(.99); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 > span.pop-word:first-child,
+  .hero h1 > i > span.pop-word:first-child,
+  .hero .pop-letter { animation: none; }
+}
+
+/* Persistent project names; existing card hover behaviour remains unchanged. */
+#work .works .card .card-name {
+  display: block !important;
+  position: absolute !important;
+  top: 16px !important;
+  left: 16px !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 50 !important;
+  max-width: calc(100% - 32px);
+  padding: 7px 10px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px;
+  background: rgba(10,12,13,.68);
+  color: #f5efe8;
+  font: 800 10px/1 Manrope,Arial,sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  backdrop-filter: blur(5px);
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
 
 /* Keep projects 01–08 in four columns and long-form projects 09–11 on one row. */
-@media(min-width:801px){#work .works{grid-template-columns:repeat(12,minmax(0,1fr))!important}#work .works>.card:not(.long-form){grid-column:span 3!important}#work .works>.card.long-form{grid-column:span 4!important;width:100%!important}}
-@media(max-width:800px){#work .works{grid-template-columns:1fr!important}#work .works>.card{grid-column:span 1!important}}
+@media (min-width: 801px) {
+  #work .works { grid-template-columns: repeat(12,minmax(0,1fr)) !important; }
+  #work .works > .card:not(.long-form) { grid-column: span 3 !important; }
+  #work .works > .card.long-form { grid-column: span 4 !important; width: 100% !important; }
+}
+@media (max-width: 800px) {
+  #work .works { grid-template-columns: 1fr !important; }
+  #work .works > .card { grid-column: span 1 !important; }
+}
 
 /* Recruiter-focused categorized video library for Section 01. */
 #work .works.portfolio-source{display:none!important}
-.portfolio-showcase{margin-top:44px}.portfolio-filters{display:flex;gap:10px;overflow-x:auto;padding:0 0 22px;scrollbar-width:none}.portfolio-filters::-webkit-scrollbar{display:none}.portfolio-filter{flex:0 0 auto;border:1px solid rgba(244,240,232,.26);border-radius:999px;background:transparent;color:var(--muted);padding:11px 16px;font:700 11px/1 Manrope,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.25s}.portfolio-filter:hover,.portfolio-filter.is-active{background:#e69b74;border-color:#e69b74;color:#11110f}.portfolio-stage{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.65fr);min-height:510px;border:1px solid rgba(244,240,232,.22);border-radius:20px;overflow:hidden;background:#0c0e0f;box-shadow:0 28px 80px rgba(0,0,0,.3)}.portfolio-player{position:relative;min-height:510px;background:radial-gradient(circle at 50% 40%,rgba(186,108,77,.24),transparent 45%),#090a0b}.portfolio-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#070809}.portfolio-preview-badge{position:absolute;top:18px;left:18px;z-index:2;padding:8px 11px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(8,9,10,.7);color:#fff;font:700 10px/1 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;pointer-events:none;backdrop-filter:blur(6px)}.portfolio-detail{display:flex;flex-direction:column;justify-content:flex-end;padding:38px;background:linear-gradient(155deg,#181716,#0c0e0f);border-left:1px solid rgba(244,240,232,.16)}.portfolio-detail-index{color:#e69b74;font:700 11px 'DM Mono',monospace;letter-spacing:.13em;text-transform:uppercase}.portfolio-detail h3{margin:14px 0;font:600 clamp(34px,4vw,58px)/.94 'Playfair Display',serif;letter-spacing:-.04em}.portfolio-detail p{margin:0 0 30px;color:#c8c0b7;font-size:14px;line-height:1.65}.portfolio-detail .button{align-self:flex-start}.portfolio-library-head{display:flex;justify-content:space-between;align-items:end;margin:32px 0 15px}.portfolio-library-head h3{margin:0;font:600 25px 'Playfair Display',serif}.portfolio-library-head p{margin:0;color:var(--muted);font:10px 'DM Mono',monospace}.portfolio-rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 18px;scrollbar-color:#ba6c4d rgba(244,240,232,.1);scrollbar-width:thin}.portfolio-choice{position:relative;flex:0 0 clamp(210px,25vw,315px);aspect-ratio:16/10;scroll-snap-align:start;border:1px solid rgba(244,240,232,.2);border-radius:14px;overflow:hidden;background:#171714 center/cover no-repeat;color:#fff;text-align:left;cursor:pointer;transition:transform .28s ease,border-color .28s ease,filter .28s ease}.portfolio-choice:before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,4,5,.05),rgba(3,4,5,.9))}.portfolio-choice:hover{transform:translateY(-5px);filter:brightness(1.12);border-color:rgba(230,155,116,.75)}.portfolio-choice.is-active{border-color:#e69b74;box-shadow:0 0 0 1px #e69b74}.portfolio-choice-copy{position:absolute;z-index:1;left:17px;right:17px;bottom:15px}.portfolio-choice-copy small{display:block;margin-bottom:7px;color:#e9a17d;font:700 9px 'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}.portfolio-choice-copy strong{display:block;font:600 21px/1.05 'Playfair Display',serif}.portfolio-choice-play{position:absolute;z-index:1;top:14px;right:14px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:rgba(244,240,232,.92);color:#111;font-size:12px}
-@media(max-width:850px){.portfolio-stage{grid-template-columns:1fr}.portfolio-player{min-height:auto;aspect-ratio:16/10}.portfolio-detail{border-left:0;border-top:1px solid rgba(244,240,232,.16);padding:28px}.portfolio-library-head p{display:none}}@media(max-width:560px){.portfolio-showcase{margin-top:28px}.portfolio-stage{border-radius:14px}.portfolio-detail h3{font-size:38px}.portfolio-choice{flex-basis:78vw}}
+.portfolio-showcase{margin-top:44px}.portfolio-filters{display:flex;gap:10px;overflow-x:auto;padding:0 0 22px;scrollbar-width:none}.portfolio-filters::-webkit-scrollbar{display:none}.portfolio-filter{flex:0 0 auto;border:1px solid rgba(244,240,232,.26);border-radius:999px;background:transparent;color:var(--muted);padding:11px 16px;font:700 11px/1 Manrope,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:.25s}.portfolio-filter:hover,.portfolio-filter.is-active{background:#e69b74;border-color:#e69b74;color:#11110f}.portfolio-stage{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.65fr);min-height:510px;border:1px solid rgba(244,240,232,.22);border-radius:20px;overflow:hidden;background:#0c0e0f;box-shadow:0 28px 80px rgba(0,0,0,.3)}.portfolio-player{position:relative;min-height:510px;background:radial-gradient(circle at 50% 40%,rgba(186,108,77,.24),transparent 45%),#090a0b}.portfolio-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#070809}.portfolio-preview-badge{position:absolute;top:18px;left:18px;z-index:2;padding:8px 11px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(8,9,10,.7);color:#fff;font:700 10px/1 'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;pointer-events:none;backdrop-filter:blur(6px)}.portfolio-detail{display:flex;flex-direction:column;justify-content:flex-end;padding:38px;background:linear-gradient(155deg,#181716,#0c0e0f);border-left:1px solid rgba(244,240,232,.16)}.portfolio-detail-index{color:#e69b74;font:700 11px 'DM Mono',monospace;letter-spacing:.13em;text-transform:uppercase}.portfolio-detail h3{margin:14px 0 14px;font:600 clamp(34px,4vw,58px)/.94 'Playfair Display',serif;letter-spacing:-.04em}.portfolio-detail p{margin:0 0 30px;color:#c8c0b7;font-size:14px;line-height:1.65}.portfolio-detail .button{align-self:flex-start}.portfolio-library-head{display:flex;justify-content:space-between;align-items:end;margin:32px 0 15px}.portfolio-library-head h3{margin:0;font:600 25px 'Playfair Display',serif}.portfolio-library-head p{margin:0;color:var(--muted);font:10px 'DM Mono',monospace}.portfolio-rail-wrap{position:relative}.portfolio-rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 18px;scrollbar-color:#ba6c4d rgba(244,240,232,.1);scrollbar-width:thin}.portfolio-choice{position:relative;flex:0 0 clamp(210px,25vw,315px);aspect-ratio:16/10;scroll-snap-align:start;border:1px solid rgba(244,240,232,.2);border-radius:14px;overflow:hidden;background:#171714 center/cover no-repeat;color:#fff;text-align:left;cursor:pointer;transition:transform .28s ease,border-color .28s ease,filter .28s ease}.portfolio-choice:before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,4,5,.05),rgba(3,4,5,.9))}.portfolio-choice:hover{transform:translateY(-5px);filter:brightness(1.12);border-color:rgba(230,155,116,.75)}.portfolio-choice.is-active{border-color:#e69b74;box-shadow:0 0 0 1px #e69b74}.portfolio-choice-copy{position:absolute;z-index:1;left:17px;right:17px;bottom:15px}.portfolio-choice-copy small{display:block;margin-bottom:7px;color:#e9a17d;font:700 9px 'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}.portfolio-choice-copy strong{display:block;font:600 21px/1.05 'Playfair Display',serif}.portfolio-choice-play{position:absolute;z-index:1;top:14px;right:14px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:rgba(244,240,232,.92);color:#111;font-size:12px}.portfolio-empty{padding:36px;color:var(--muted)}
+@media(max-width:850px){.portfolio-stage{grid-template-columns:1fr}.portfolio-player{min-height:auto;aspect-ratio:16/10}.portfolio-detail{border-left:0;border-top:1px solid rgba(244,240,232,.16);padding:28px}.portfolio-library-head p{display:none}}
+@media(max-width:560px){.portfolio-showcase{margin-top:28px}.portfolio-stage{border-radius:14px}.portfolio-detail h3{font-size:38px}.portfolio-choice{flex-basis:78vw}}
 
 /* EN / VI portfolio language control. */
-.language-switch{display:inline-flex;align-items:center;gap:3px;margin-left:18px;padding:3px;border:1px solid rgba(244,240,232,.25);border-radius:999px;vertical-align:middle}.language-switch button{border:0;border-radius:999px;background:transparent;color:var(--muted);padding:6px 9px;font:800 9px/1 Manrope,Arial,sans-serif;letter-spacing:.08em;cursor:pointer}.language-switch button.is-active{background:#e69b74;color:#11110f}.portfolio-category-note{margin:0 0 18px;color:var(--muted);font-size:13px;line-height:1.6;max-width:760px}@media(max-width:700px){.language-switch{margin-left:0}.nav>.language-switch{margin-left:auto}}
+.language-switch{display:inline-flex;align-items:center;gap:3px;margin-left:18px;padding:3px;border:1px solid rgba(244,240,232,.25);border-radius:999px;vertical-align:middle}.language-switch button{border:0;border-radius:999px;background:transparent;color:var(--muted);padding:6px 9px;font:800 9px/1 Manrope,Arial,sans-serif;letter-spacing:.08em;cursor:pointer}.language-switch button.is-active{background:#e69b74;color:#11110f}.portfolio-category-note{margin:0 0 18px;color:var(--muted);font-size:13px;line-height:1.6;max-width:760px}
+@media(max-width:700px){.language-switch{margin-left:0}.nav>.language-switch{margin-left:auto}}
+
+/* Section 01 v3: numbered groups with three-column vertical previews. */
+.portfolio-sections-v3{margin-top:42px}.portfolio-v3-menu{display:flex;gap:9px;overflow-x:auto;padding:0 0 28px;scrollbar-width:none}.portfolio-v3-menu::-webkit-scrollbar{display:none}.portfolio-v3-filter{flex:0 0 auto;padding:11px 15px;border:1px solid rgba(244,240,232,.25);border-radius:999px;background:transparent;color:var(--muted);font:800 10px/1 Manrope,Arial,sans-serif;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:.25s}.portfolio-v3-filter:hover,.portfolio-v3-filter.is-active{background:#e69b74;border-color:#e69b74;color:#111}.portfolio-v3-group{padding:38px 0 54px;border-top:1px solid rgba(244,240,232,.18)}.portfolio-v3-group[hidden]{display:none}.portfolio-v3-head{display:grid;grid-template-columns:100px minmax(0,1fr);gap:20px;align-items:start;margin-bottom:26px}.portfolio-v3-number{color:#e69b74;font:800 12px 'DM Mono',monospace;letter-spacing:.12em}.portfolio-v3-head h3{margin:0 0 9px;font:600 clamp(32px,4vw,52px)/.95 'Playfair Display',serif;letter-spacing:-.04em}.portfolio-v3-head p{margin:0;color:var(--muted);max-width:720px;font-size:14px;line-height:1.6}.portfolio-v3-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.portfolio-v3-card{min-width:0;border:1px solid rgba(244,240,232,.2);border-radius:17px;overflow:hidden;background:#101214;box-shadow:0 18px 48px rgba(0,0,0,.24);transition:transform .3s ease,border-color .3s ease}.portfolio-v3-card:hover{transform:translateY(-6px);border-color:rgba(230,155,116,.7)}.portfolio-v3-preview{position:relative;width:100%;aspect-ratio:9/16;background:radial-gradient(circle at 50% 35%,rgba(186,108,77,.25),transparent 40%),#08090a}.portfolio-v3-preview iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.portfolio-v3-badge{position:absolute;z-index:2;top:13px;left:13px;padding:7px 9px;border-radius:999px;background:rgba(7,8,9,.72);border:1px solid rgba(255,255,255,.24);color:#fff;font:700 9px 'DM Mono',monospace;letter-spacing:.08em;pointer-events:none;backdrop-filter:blur(6px)}.portfolio-v3-copy{padding:20px}.portfolio-v3-copy small{display:block;color:#e69b74;font:800 9px 'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}.portfolio-v3-copy h4{margin:9px 0 10px;font:600 25px/1.02 'Playfair Display',serif}.portfolio-v3-copy p{margin:0 0 18px;color:#c4bcb3;font-size:12px;line-height:1.55;min-height:56px}.portfolio-v3-copy a{color:#f4f0e8;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}.portfolio-v3-copy a:hover{color:#e69b74}
+@media(max-width:850px){.portfolio-v3-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-v3-head{grid-template-columns:72px 1fr}}
+@media(max-width:560px){.portfolio-sections-v3{margin-top:28px}.portfolio-v3-grid{grid-template-columns:1fr}.portfolio-v3-head{grid-template-columns:1fr;gap:8px}.portfolio-v3-preview{aspect-ratio:9/16}.portfolio-v3-copy p{min-height:0}}
 
 /* Skills strip requested above the software section. */
 .skills-strip{overflow:hidden;padding:58px 0 62px;border-top:1px solid rgba(244,239,232,.18);border-bottom:1px solid rgba(244,239,232,.18);background:#101315}.skills-strip__head{width:min(1060px,calc(100% - 120px));margin:0 auto 26px;display:flex;justify-content:space-between;align-items:baseline;color:#f2ede6}.skills-strip__head p{margin:0;color:#bdb4ab;font:700 11px/1.2 Manrope,Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}.skills-strip__head h2{margin:0;font-size:clamp(38px,4vw,64px);line-height:.96}.skill-lane{display:flex;width:max-content;gap:12px;margin:12px 0;will-change:transform}.skill-lane--left{animation:skills-left 42s linear infinite}.skill-lane--right{animation:skills-right 46s linear infinite}.skill-chip{flex:0 0 auto;padding:14px 20px;border:1px solid rgba(244,239,232,.36);border-radius:999px;color:#f2ede6;background:rgba(235,160,115,.06);font:700 12px/1 Manrope,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.skill-chip:nth-child(3n){border-color:rgba(229,158,112,.75);color:#eba077}.skill-chip:nth-child(4n){background:rgba(244,239,232,.07)}
@@ -222,9 +308,18 @@ const existingLongFormCards = [...document.querySelectorAll('#work .works .card.
   }
 });
 
-/* Section 01 links, persistent image labels, and card 04 copy. */
+/* Requested Section 01 link updates and persistent card names. */
 const selectedWorkCards = [...document.querySelectorAll('#work .works .card:not(.long-form)')].slice(0, 8);
-const selectedWorkNames = ['01 — Cleaning Wax','02 — La Caja Buena','03 — Spa Space','04 — Founder','05 — Highlighter','06 — Blush','07 — AI Caption','08 — Illustration Video'];
+const selectedWorkNames = [
+  '01 — Cleaning Wax',
+  '02 — La Caja Buena',
+  '03 — Spa Space',
+  '04 — Founder',
+  '05 — Highlighter',
+  '06 — Blush',
+  '07 — AI Caption',
+  '08 — Illustration Video'
+];
 selectedWorkCards.forEach((card, index) => {
   if (!card.querySelector('.card-name')) {
     const name = document.createElement('span');
@@ -237,46 +332,238 @@ if (selectedWorkCards[3]) selectedWorkCards[3].href = 'https://drive.google.com/
 if (selectedWorkCards[4]) selectedWorkCards[4].href = 'https://drive.google.com/file/d/1-brbNOO9ZdcpIQXyj4yUubJCX1POpgG5/view?usp=sharing';
 if (selectedWorkCards[3]?.querySelector('.card-caption')) selectedWorkCards[3].querySelector('.card-caption').textContent = 'FOUNDER INTRODUCTION';
 if (selectedWorkCards[3]) {
-  const productLaunchLabel = [...selectedWorkCards[3].querySelectorAll('*')].find(element => element.children.length === 0 && /PRODUCT\s+LAUNCH/i.test(element.textContent));
+  const productLaunchLabel = [...selectedWorkCards[3].querySelectorAll('*')].find(element =>
+    element.children.length === 0 && /PRODUCT\s+LAUNCH/i.test(element.textContent)
+  );
   if (productLaunchLabel) productLaunchLabel.textContent = productLaunchLabel.textContent.replace(/PRODUCT\s+LAUNCH/i, 'BRAND INTRODUCTION');
   const bodyMistTitle = [...selectedWorkCards[3].querySelectorAll('h2,h3,h4')].find(element => /BODY\s+MIST/i.test(element.textContent));
   if (bodyMistTitle) bodyMistTitle.textContent = 'Brand Introduction';
 }
 
 /* Recruiter-friendly categorized preview library for Section 01. */
-const portfolioSection=document.querySelector('#work'),portfolioSource=portfolioSection?.querySelector('.works');
-if(portfolioSection&&portfolioSource&&!portfolioSection.querySelector('.portfolio-showcase')){
-const titles=['Cleaning Wax','La Caja Buena','Spa Space','Founder Introduction','Highlighter','Blush','AI Caption','Illustration Video','Service Guide Film','Language Learning Film','Cinematic Timeline'];
-const types=['Product Commercial','Brand Introduction','Spa Introduction','Founder Story','Beauty Commercial','Authentic Review','AI Caption','AI Illustration','Service Guide · Long-form','Language Learning · Long-form','Cinematic Editing · Long-form'];
-const descriptions=['A hook-led product demonstration built to explain value quickly and hold attention.','A concise brand introduction shaped around a clear message and friendly visual rhythm.','A calm, sensory introduction to a spa space and the experience it offers.','A founder-led story that makes the person and purpose behind the brand memorable.','A polished beauty product edit focused on texture, glow and product desirability.','An authentic first-try review balancing natural reaction with commercial clarity.','AI-assisted caption visuals designed to make information immediate and social-first.','An illustrated AI video that turns a simple idea into a distinctive visual story.','A long-form walkthrough introducing a service and guiding customers through its use.','A long-form educational edit structured for clarity, pacing and language learning.','A cinematic edit over 60 seconds with the production timeline visible to reveal the layers, tools and decisions behind the scene.'];
-const cards=[...portfolioSource.querySelectorAll('.card')].slice(0,11);
-const projects=cards.map((card,index)=>{const href=card.href,driveId=href.match(/\/d\/([^/]+)/)?.[1]||'',category=index<6?'brand':index<8?'ai':'long';return{index:index,number:String(index+1).padStart(2,'0'),title:titles[index],type:types[index],description:descriptions[index],href:href,driveId:driveId,category:category}});
-const categories=[{id:'all',label:'All work'},{id:'brand',label:'Commercial & Brand'},{id:'ai',label:'AI & Illustration'},{id:'long',label:'Long-form & Cinema'}];
-const showcase=document.createElement('div');showcase.className='portfolio-showcase';showcase.innerHTML='<div class="portfolio-filters" role="tablist" aria-label="Filter video projects"></div><div class="portfolio-stage"><div class="portfolio-player"><span class="portfolio-preview-badge">Interactive video preview</span><iframe title="Portfolio video preview" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="portfolio-detail"><span class="portfolio-detail-index"></span><h3></h3><p></p><a class="button" target="_blank" rel="noreferrer">Open full project ↗</a></div></div><div class="portfolio-library-head"><h3>Browse the video library</h3><p>Scroll horizontally · Select to preview</p></div><div class="portfolio-rail"></div>';
-portfolioSource.classList.add('portfolio-source');portfolioSource.insertAdjacentElement('beforebegin',showcase);
-const filters=showcase.querySelector('.portfolio-filters'),rail=showcase.querySelector('.portfolio-rail'),iframe=showcase.querySelector('iframe'),detailIndex=showcase.querySelector('.portfolio-detail-index'),detailTitle=showcase.querySelector('.portfolio-detail h3'),detailDescription=showcase.querySelector('.portfolio-detail p'),detailLink=showcase.querySelector('.portfolio-detail .button');let activeCategory='all',activeIndex=0;
-const selectProject=project=>{activeIndex=project.index;iframe.src=project.driveId?'https://drive.google.com/file/d/'+project.driveId+'/preview':project.href;iframe.title=project.title+' video preview';detailIndex.textContent=project.number+' / '+project.type;detailTitle.textContent=project.title;detailDescription.textContent=project.description;detailLink.href=project.href;rail.querySelectorAll('.portfolio-choice').forEach(choice=>choice.classList.toggle('is-active',Number(choice.dataset.index)===project.index))};
-const renderRail=()=>{const visible=activeCategory==='all'?projects:projects.filter(project=>project.category===activeCategory);rail.innerHTML='';visible.forEach(project=>{const choice=document.createElement('button');choice.type='button';choice.className='portfolio-choice';choice.dataset.index=project.index;if(project.driveId)choice.style.backgroundImage='url(https://drive.google.com/thumbnail?id='+project.driveId+'&sz=w900)';choice.innerHTML='<span class="portfolio-choice-play">▶</span><span class="portfolio-choice-copy"><small>'+project.number+' · '+project.type+'</small><strong>'+project.title+'</strong></span>';choice.addEventListener('click',()=>selectProject(project));rail.appendChild(choice)});selectProject(visible.find(project=>project.index===activeIndex)||visible[0])};
-categories.forEach(category=>{const count=category.id==='all'?projects.length:projects.filter(project=>project.category===category.id).length,button=document.createElement('button');button.type='button';button.className='portfolio-filter'+(category.id===activeCategory?' is-active':'');button.textContent=category.label+' · '+count;button.addEventListener('click',()=>{activeCategory=category.id;filters.querySelectorAll('.portfolio-filter').forEach(item=>item.classList.toggle('is-active',item===button));renderRail()});filters.appendChild(button)});
-rail.addEventListener('wheel',event=>{if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){event.preventDefault();rail.scrollLeft+=event.deltaY}},{passive:false});renderRail();
+const portfolioSection = document.querySelector('#work');
+const portfolioSource = portfolioSection?.querySelector('.works');
+if (portfolioSection && portfolioSource && !portfolioSection.querySelector('.portfolio-showcase')) {
+  const projectTitles = ['Cleaning Wax','La Caja Buena','Spa Space','Founder Introduction','Highlighter','Blush','AI Caption','Illustration Video','Service Guide Film','Language Learning Film','Cinematic Timeline'];
+  const projectTypes = ['Product Commercial','Brand Introduction','Spa Introduction','Founder Story','Beauty Commercial','Authentic Review','AI Caption','AI Illustration','Service Guide · Long-form','Language Learning · Long-form','Cinematic Editing · Long-form'];
+  const projectDescriptions = [
+    'A hook-led product demonstration built to explain value quickly and hold attention.',
+    'A concise brand introduction shaped around a clear message and friendly visual rhythm.',
+    'A calm, sensory introduction to a spa space and the experience it offers.',
+    'A founder-led story that makes the person and purpose behind the brand memorable.',
+    'A polished beauty product edit focused on texture, glow and product desirability.',
+    'An authentic first-try review balancing natural reaction with commercial clarity.',
+    'AI-assisted caption visuals designed to make information immediate and social-first.',
+    'An illustrated AI video that turns a simple idea into a distinctive visual story.',
+    'A long-form walkthrough introducing a service and guiding customers through its use.',
+    'A long-form educational edit structured for clarity, pacing and language learning.',
+    'A cinematic edit over 60 seconds with the production timeline visible to reveal the layers, tools and decisions behind the scene.'
+  ];
+  const sourceCards = [...portfolioSource.querySelectorAll('.card')].slice(0, 11);
+  const projects = sourceCards.map((card, index) => {
+    const href = card.href;
+    const driveId = href.match(/\/d\/([^/]+)/)?.[1] || '';
+    const category = index < 6 ? 'brand' : index < 8 ? 'ai' : 'long';
+    return { index, number: String(index + 1).padStart(2, '0'), title: projectTitles[index], type: projectTypes[index], description: projectDescriptions[index], href, driveId, category };
+  });
+  const categories = [
+    { id: 'all', label: 'All work' },
+    { id: 'brand', label: 'Commercial & Brand' },
+    { id: 'ai', label: 'AI & Illustration' },
+    { id: 'long', label: 'Long-form & Cinema' }
+  ];
+  const showcase = document.createElement('div');
+  showcase.className = 'portfolio-showcase';
+  showcase.innerHTML = '<div class="portfolio-filters" role="tablist" aria-label="Filter video projects"></div><div class="portfolio-stage"><div class="portfolio-player"><span class="portfolio-preview-badge">Interactive video preview</span><iframe title="Portfolio video preview" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="portfolio-detail"><span class="portfolio-detail-index"></span><h3></h3><p></p><a class="button" target="_blank" rel="noreferrer">Open full project ↗</a></div></div><div class="portfolio-library-head"><h3>Browse the video library</h3><p>Scroll horizontally · Select to preview</p></div><div class="portfolio-rail-wrap"><div class="portfolio-rail" aria-label="Video projects"></div></div>';
+  portfolioSource.classList.add('portfolio-source');
+  portfolioSource.insertAdjacentElement('beforebegin', showcase);
+  const filters = showcase.querySelector('.portfolio-filters');
+  const rail = showcase.querySelector('.portfolio-rail');
+  const iframe = showcase.querySelector('iframe');
+  const detailIndex = showcase.querySelector('.portfolio-detail-index');
+  const detailTitle = showcase.querySelector('.portfolio-detail h3');
+  const detailDescription = showcase.querySelector('.portfolio-detail p');
+  const detailLink = showcase.querySelector('.portfolio-detail .button');
+  let activeCategory = 'all';
+  let activeIndex = 0;
+  const selectProject = project => {
+    activeIndex = project.index;
+    iframe.src = project.driveId ? `https://drive.google.com/file/d/${project.driveId}/preview` : project.href;
+    iframe.title = `${project.title} video preview`;
+    detailIndex.textContent = `${project.number} / ${project.type}`;
+    detailTitle.textContent = project.title;
+    detailDescription.textContent = project.description;
+    detailLink.href = project.href;
+    rail.querySelectorAll('.portfolio-choice').forEach(choice => choice.classList.toggle('is-active', Number(choice.dataset.index) === project.index));
+  };
+  const renderRail = () => {
+    const visibleProjects = activeCategory === 'all' ? projects : projects.filter(project => project.category === activeCategory);
+    rail.innerHTML = '';
+    visibleProjects.forEach(project => {
+      const choice = document.createElement('button');
+      choice.type = 'button';
+      choice.className = 'portfolio-choice';
+      choice.dataset.index = project.index;
+      choice.style.backgroundImage = project.driveId ? `url('https://drive.google.com/thumbnail?id=${project.driveId}&sz=w900')` : '';
+      choice.innerHTML = `<span class="portfolio-choice-play">▶</span><span class="portfolio-choice-copy"><small>${project.number} · ${project.type}</small><strong>${project.title}</strong></span>`;
+      choice.addEventListener('click', () => selectProject(project));
+      rail.appendChild(choice);
+    });
+    selectProject(visibleProjects.find(project => project.index === activeIndex) || visibleProjects[0]);
+  };
+  categories.forEach(category => {
+    const count = category.id === 'all' ? projects.length : projects.filter(project => project.category === category.id).length;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `portfolio-filter${category.id === activeCategory ? ' is-active' : ''}`;
+    button.textContent = `${category.label} · ${count}`;
+    button.addEventListener('click', () => {
+      activeCategory = category.id;
+      filters.querySelectorAll('.portfolio-filter').forEach(item => item.classList.toggle('is-active', item === button));
+      renderRail();
+    });
+    filters.appendChild(button);
+  });
+  rail.addEventListener('wheel', event => {
+    if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+      event.preventDefault();
+      rail.scrollLeft += event.deltaY;
+    }
+  }, { passive: false });
+  renderRail();
 }
 
 /* Portfolio library v2: cinema-first categories and EN / VI mode. */
-(()=>{
-const work=document.querySelector('#work'),source=work?.querySelector('.works');if(!work||!source)return;work.querySelector('.portfolio-showcase')?.remove();
-const EN={titles:['Cleaning Wax','La Caja Buena','Spa Space','Founder Introduction','Highlighter','Blush','AI Caption','Illustration Video','Service Guide Film','Language Learning Film','Cinematic Timeline'],types:['Product Demonstration','Brand Introduction','Brand Experience','Founder Introduction','Beauty Product','Authentic Product Review','AI Caption','AI Illustration','Service Guide · Long-form','Language Learning · Long-form','Cinematic Editing · Long-form'],desc:['A hook-led product demonstration built to explain value quickly and hold attention.','A concise brand introduction shaped around a clear message and friendly visual rhythm.','A sensory brand-space introduction that makes the service experience feel tangible.','A founder-led introduction connecting the person, purpose and personality behind the brand.','A polished beauty product edit focused on texture, glow and product desirability.','An authentic first-try review balancing natural reaction with commercial clarity.','AI-assisted caption visuals designed to make information immediate and social-first.','An illustrated AI video that turns a simple idea into a distinctive visual story.','A long-form walkthrough introducing a service and guiding customers through its use.','A long-form educational edit structured for clarity, pacing and language learning.','Cinematic language is applied through deliberate pacing, motivated cuts, tonal color grading, sound design and atmosphere. The visible timeline reveals how footage, effects, audio and transitions are layered to build the final sequence.'],filters:{cinema:'Cinema First',product:'Product Videos',ai:'AI Visuals',brand:'Brand Introduction',long:'Long-form & Education',all:'All Work'},notes:{cinema:'Cinematic storytelling, with the edit timeline shown so recruiters can see both the final mood and the craft behind it.',product:'Product-focused edits built to demonstrate value, texture and desirability within the first seconds.',ai:'AI-assisted captions and illustration used to make information more visual, distinct and memorable.',brand:'Three approaches to introducing a brand: its identity, its space and the founder behind it.',long:'Longer educational and service-led work structured for clarity and viewer retention.',all:'All selected projects, ordered by creative direction.'},preview:'Interactive video preview',library:'Browse this category',hint:'Scroll horizontally · Select to preview',open:'Open full project ↗'};
-const VI={titles:['Sáp vệ sinh cọ','La Caja Buena','Không gian spa','Giới thiệu founder','Highlighter','Blush','Caption AI','Video minh họa','Video hướng dẫn dịch vụ','Video học ngôn ngữ','Cinematic Timeline'],types:['Giới thiệu sản phẩm','Giới thiệu thương hiệu','Trải nghiệm thương hiệu','Giới thiệu founder','Sản phẩm làm đẹp','Review sản phẩm chân thực','Caption AI','Minh họa AI','Hướng dẫn dịch vụ · Video dài','Học ngôn ngữ · Video dài','Dựng điện ảnh · Video dài'],desc:['Video sản phẩm mở đầu bằng hook, giúp giải thích giá trị nhanh và giữ sự chú ý.','Video giới thiệu thương hiệu ngắn gọn với thông điệp rõ ràng và nhịp hình thân thiện.','Giới thiệu không gian và trải nghiệm thương hiệu theo hướng giàu cảm giác.','Video founder kết nối con người, mục tiêu và cá tính phía sau thương hiệu.','Video sản phẩm làm đẹp tập trung vào chất liệu, độ bắt sáng và cảm giác mong muốn sở hữu.','Review lần đầu chân thực, cân bằng giữa phản ứng tự nhiên và thông tin thương mại.','Caption hỗ trợ bởi AI giúp thông tin trực quan, nhanh hiểu và phù hợp mạng xã hội.','Video minh họa AI biến một ý tưởng đơn giản thành câu chuyện hình ảnh khác biệt.','Video dài giới thiệu dịch vụ và hướng dẫn khách hàng sử dụng theo từng bước rõ ràng.','Video giáo dục dài được tổ chức theo nhịp dễ hiểu và phù hợp việc học ngôn ngữ.','Phong cách điện ảnh được ứng dụng qua nhịp dựng có chủ đích, điểm cắt hợp lý, color grading theo tông, sound design và không khí cảnh phim. Timeline hiển thị cách footage, hiệu ứng, âm thanh và transition được xếp lớp để tạo nên phân đoạn hoàn chỉnh.'],filters:{cinema:'Điện ảnh',product:'Video sản phẩm',ai:'Hình ảnh AI',brand:'Giới thiệu brand',long:'Video dài & Giáo dục',all:'Tất cả'},notes:{cinema:'Kể chuyện điện ảnh kèm timeline dựng, giúp nhà tuyển dụng thấy cả cảm xúc thành phẩm lẫn kỹ thuật phía sau.',product:'Video tập trung vào sản phẩm, làm rõ giá trị, chất liệu và sức hút ngay từ những giây đầu.',ai:'Caption và minh họa hỗ trợ bởi AI giúp thông tin trực quan, khác biệt và dễ nhớ.',brand:'Ba cách giới thiệu thương hiệu: nhận diện, không gian và founder phía sau brand.',long:'Các video dài về giáo dục và dịch vụ, ưu tiên sự rõ ràng và khả năng giữ chân người xem.',all:'Toàn bộ dự án tiêu biểu, được sắp theo định hướng sáng tạo.'},preview:'Xem trước video',library:'Xem video trong nhóm',hint:'Cuộn ngang · Chọn để xem trước',open:'Mở video đầy đủ ↗'};
-const groups=[{id:'cinema',ids:[10]},{id:'product',ids:[0,4,5]},{id:'ai',ids:[6,7]},{id:'brand',ids:[1,2,3]},{id:'long',ids:[8,9]},{id:'all',ids:[10,0,4,5,6,7,1,2,3,8,9]}];
-const cards=[...source.querySelectorAll('.card')].slice(0,11),projects=cards.map((card,index)=>{const href=card.href,id=href.match(/\/d\/([^/]+)/)?.[1]||'';return{index:index,number:String(index+1).padStart(2,'0'),href:href,driveId:id}});
-const view=document.createElement('div');view.className='portfolio-showcase portfolio-showcase-v2';view.innerHTML='<div class="portfolio-filters"></div><p class="portfolio-category-note"></p><div class="portfolio-stage"><div class="portfolio-player"><span class="portfolio-preview-badge"></span><iframe loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="portfolio-detail"><span class="portfolio-detail-index"></span><h3></h3><p></p><a class="button" target="_blank" rel="noreferrer"></a></div></div><div class="portfolio-library-head"><h3></h3><p></p></div><div class="portfolio-rail"></div>';source.classList.add('portfolio-source');source.insertAdjacentElement('beforebegin',view);
-const filters=view.querySelector('.portfolio-filters'),note=view.querySelector('.portfolio-category-note'),rail=view.querySelector('.portfolio-rail'),frame=view.querySelector('iframe'),detailIndex=view.querySelector('.portfolio-detail-index'),detailTitle=view.querySelector('.portfolio-detail h3'),detailDesc=view.querySelector('.portfolio-detail p'),detailLink=view.querySelector('.portfolio-detail .button');let language=localStorage.getItem('portfolio-language')==='vi'?'vi':'en',group='cinema',active=10;const copy=()=>language==='vi'?VI:EN;
-const select=project=>{const text=copy();active=project.index;if(frame.dataset.project!==String(active)){frame.src=project.driveId?'https://drive.google.com/file/d/'+project.driveId+'/preview':project.href;frame.dataset.project=active}frame.title=text.titles[active]+' video preview';detailIndex.textContent=project.number+' / '+text.types[active];detailTitle.textContent=text.titles[active];detailDesc.textContent=text.desc[active];detailLink.href=project.href;detailLink.textContent=text.open;rail.querySelectorAll('.portfolio-choice').forEach(item=>item.classList.toggle('is-active',Number(item.dataset.index)===active))};
-const renderRail=()=>{const text=copy(),current=groups.find(item=>item.id===group),visible=current.ids.map(id=>projects[id]).filter(Boolean);rail.innerHTML='';visible.forEach(project=>{const button=document.createElement('button');button.type='button';button.className='portfolio-choice';button.dataset.index=project.index;if(project.driveId)button.style.backgroundImage='url(https://drive.google.com/thumbnail?id='+project.driveId+'&sz=w900)';button.innerHTML='<span class="portfolio-choice-play">▶</span><span class="portfolio-choice-copy"><small>'+project.number+' · '+text.types[project.index]+'</small><strong>'+text.titles[project.index]+'</strong></span>';button.addEventListener('click',()=>select(project));rail.appendChild(button)});select(visible.find(item=>item.index===active)||visible[0])};
-const renderFilters=()=>{const text=copy();filters.innerHTML='';groups.forEach(item=>{const button=document.createElement('button');button.type='button';button.className='portfolio-filter'+(item.id===group?' is-active':'');button.textContent=text.filters[item.id]+' · '+item.ids.length;button.addEventListener('click',()=>{group=item.id;active=item.ids[0];renderFilters();renderLanguage()});filters.appendChild(button)})};
-const translate=()=>{const text=copy(),v=language==='vi';document.documentElement.lang=language;document.querySelector('.nav nav a[href="#work"]').textContent=v?'Dự án':'Selected Work';document.querySelector('.nav nav a[href="#contact"]').textContent=v?'Liên hệ':'Contact';document.querySelector('.hero .intro').textContent=v?'Tôi tạo video ngắn giúp các thương hiệu làm đẹp và dịch vụ thu hút sự chú ý, truyền tải giá trị rõ ràng và biến người xem thành khách hàng.':'I create short-form video that helps beauty and service brands capture attention, explain their value clearly, and turn viewers into customers.';document.querySelector('.hero .scroll').textContent=v?'Cuộn để xem dự án ↓':'Scroll to view selected work ↓';document.querySelector('.hero-foot .button').textContent=v?'Xem résumé':'View résumé';const head=work.querySelector('.section-head');head.querySelector('.label').textContent=v?'01 / Dự án tiêu biểu':'01 / Selected work';head.querySelector('h2').textContent=v?'Tạo ấn tượng từ giây đầu tiên—và còn đọng lại về sau.':'Built for the first second—and the lasting impression.';head.querySelector('.lede').textContent=v?'Video social-first gồm sản phẩm, thương hiệu, giáo dục, điện ảnh và hình ảnh hỗ trợ bởi AI.':'Hook-led, social-first edits spanning products, brand stories, education, cinematic work and AI-enhanced visuals.';view.querySelector('.portfolio-preview-badge').textContent=text.preview;view.querySelector('.portfolio-library-head h3').textContent=text.library;view.querySelector('.portfolio-library-head p').textContent=text.hint;note.textContent=text.notes[group];const create=work.nextElementSibling;if(create?.classList.contains('section')){create.querySelector('.section-head .label').textContent=v?'02 / Nội dung tôi tạo':'02 / What I create';create.querySelector('.section-head h2').textContent=v?'Chuyển động, dễ hiểu và đáng nhớ.':'Built to move, explain and be remembered.';create.querySelector('.section-head .lede').textContent=v?'Sáu định hướng nội dung cho thương hiệu làm đẹp, founder và doanh nghiệp dịch vụ.':'Six content directions for beauty brands, founders and service businesses.'}const software=document.querySelector('.software-icons')?.closest('section');if(software){software.querySelector('.label').textContent=v?'03 / Phần mềm':'03 / Software';software.querySelector('h2').textContent=v?'Công cụ phía sau mỗi thước phim.':'The tools behind the edit.'}const contact=document.querySelector('#contact');if(contact){contact.querySelector('.label').textContent=v?'04 / Làm việc từ xa':'04 / Available remotely';contact.querySelector('h2').innerHTML=v?'Hãy cùng tạo nên nội dung <span class="signal-text">đáng nhớ.</span>':'Let’s make content <span class="signal-text">worth remembering.</span>';contact.querySelector('p').textContent=v?'Tôi mong muốn làm việc cùng nail artist, salon, spa, founder ngành làm đẹp và các thương hiệu sản phẩm trên toàn thế giới.':'I’m interested in working with nail artists, salons, spas, beauty founders and product brands across the world.';contact.querySelector('.contact-links .button').textContent=v?'Gửi email':'Email me'}const foot=document.querySelector('.footer span:last-child');if(foot)foot.textContent=v?'Việt Nam · Làm việc từ xa':'Vietnam · Available remotely'};
-const renderLanguage=()=>{translate();renderRail();document.querySelectorAll('.language-switch button').forEach(button=>button.classList.toggle('is-active',button.dataset.lang===language))};
-let switcher=document.querySelector('.language-switch');if(!switcher){switcher=document.createElement('span');switcher.className='language-switch';switcher.innerHTML='<button type="button" data-lang="en">EN</button><button type="button" data-lang="vi">VI</button>';document.querySelector('.nav nav')?.appendChild(switcher);switcher.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{language=button.dataset.lang;localStorage.setItem('portfolio-language',language);renderFilters();renderLanguage()}))}
-rail.addEventListener('wheel',event=>{if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){event.preventDefault();rail.scrollLeft+=event.deltaY}},{passive:false});renderFilters();renderLanguage();
+(() => {
+  const workSection = document.querySelector('#work');
+  const source = workSection?.querySelector('.works');
+  if (!workSection || !source) return;
+  workSection.querySelector('.portfolio-showcase')?.remove();
+  const en = {
+    titles:['Cleaning Wax','La Caja Buena','Spa Space','Founder Introduction','Highlighter','Blush','AI Caption','Illustration Video','Service Guide Film','Language Learning Film','Cinematic Timeline'],
+    types:['Product Demonstration','Brand Introduction','Brand Experience','Founder Introduction','Beauty Product','Authentic Product Review','AI Caption','AI Illustration','Service Guide · Long-form','Language Learning · Long-form','Cinematic Editing · Long-form'],
+    descriptions:[
+      'A hook-led product demonstration built to explain value quickly and hold attention.',
+      'A concise brand introduction shaped around a clear message and friendly visual rhythm.',
+      'A sensory brand-space introduction that makes the service experience feel tangible.',
+      'A founder-led introduction connecting the person, purpose and personality behind the brand.',
+      'A polished beauty product edit focused on texture, glow and product desirability.',
+      'An authentic first-try review balancing natural reaction with commercial clarity.',
+      'AI-assisted caption visuals designed to make information immediate and social-first.',
+      'An illustrated AI video that turns a simple idea into a distinctive visual story.',
+      'A long-form walkthrough introducing a service and guiding customers through its use.',
+      'A long-form educational edit structured for clarity, pacing and language learning.',
+      'Cinematic language is applied through deliberate pacing, motivated cuts, tonal color grading, sound design and atmosphere. The visible timeline reveals how footage, effects, audio and transitions are layered to build the final sequence.'
+    ],
+    filters:{cinema:'Cinema First',product:'Product Videos',ai:'AI Visuals',brand:'Brand Introduction',long:'Long-form & Education',all:'All Work'},
+    categoryNotes:{cinema:'Cinematic storytelling, with the edit timeline shown so recruiters can see both the final mood and the craft behind it.',product:'Product-focused edits built to demonstrate value, texture and desirability within the first seconds.',ai:'AI-assisted captions and illustration used to make information more visual, distinct and memorable.',brand:'Three approaches to introducing a brand: its identity, its space and the founder behind it.',long:'Longer educational and service-led work structured for clarity and viewer retention.',all:'All selected projects, ordered by creative direction.'},
+    preview:'Interactive video preview',library:'Browse this category',hint:'Scroll horizontally · Select to preview',open:'Open full project ↗'
+  };
+  const vi = {
+    titles:['Sáp vệ sinh cọ','La Caja Buena','Không gian spa','Giới thiệu founder','Highlighter','Blush','Caption AI','Video minh họa','Video hướng dẫn dịch vụ','Video học ngôn ngữ','Cinematic Timeline'],
+    types:['Giới thiệu sản phẩm','Giới thiệu thương hiệu','Trải nghiệm thương hiệu','Giới thiệu founder','Sản phẩm làm đẹp','Review sản phẩm chân thực','Caption AI','Minh họa AI','Hướng dẫn dịch vụ · Video dài','Học ngôn ngữ · Video dài','Dựng điện ảnh · Video dài'],
+    descriptions:[
+      'Video sản phẩm mở đầu bằng hook, giúp giải thích giá trị nhanh và giữ sự chú ý.',
+      'Video giới thiệu thương hiệu ngắn gọn với thông điệp rõ ràng và nhịp hình thân thiện.',
+      'Giới thiệu không gian và trải nghiệm thương hiệu theo hướng giàu cảm giác.',
+      'Video founder kết nối con người, mục tiêu và cá tính phía sau thương hiệu.',
+      'Video sản phẩm làm đẹp tập trung vào chất liệu, độ bắt sáng và cảm giác mong muốn sở hữu.',
+      'Review lần đầu chân thực, cân bằng giữa phản ứng tự nhiên và thông tin thương mại.',
+      'Caption hỗ trợ bởi AI giúp thông tin trực quan, nhanh hiểu và phù hợp mạng xã hội.',
+      'Video minh họa AI biến một ý tưởng đơn giản thành câu chuyện hình ảnh khác biệt.',
+      'Video dài giới thiệu dịch vụ và hướng dẫn khách hàng sử dụng theo từng bước rõ ràng.',
+      'Video giáo dục dài được tổ chức theo nhịp dễ hiểu và phù hợp việc học ngôn ngữ.',
+      'Phong cách điện ảnh được ứng dụng qua nhịp dựng có chủ đích, điểm cắt hợp lý, color grading theo tông, sound design và không khí cảnh phim. Timeline hiển thị cách footage, hiệu ứng, âm thanh và transition được xếp lớp để tạo nên phân đoạn hoàn chỉnh.'
+    ],
+    filters:{cinema:'Điện ảnh',product:'Video sản phẩm',ai:'Hình ảnh AI',brand:'Giới thiệu brand',long:'Video dài & Giáo dục',all:'Tất cả'},
+    categoryNotes:{cinema:'Kể chuyện điện ảnh kèm timeline dựng, giúp nhà tuyển dụng thấy cả cảm xúc thành phẩm lẫn kỹ thuật phía sau.',product:'Video tập trung vào sản phẩm, làm rõ giá trị, chất liệu và sức hút ngay từ những giây đầu.',ai:'Caption và minh họa hỗ trợ bởi AI giúp thông tin trực quan, khác biệt và dễ nhớ.',brand:'Ba cách giới thiệu thương hiệu: nhận diện, không gian và founder phía sau brand.',long:'Các video dài về giáo dục và dịch vụ, ưu tiên sự rõ ràng và khả năng giữ chân người xem.',all:'Toàn bộ dự án tiêu biểu, được sắp theo định hướng sáng tạo.'},
+    preview:'Xem trước video',library:'Xem video trong nhóm',hint:'Cuộn ngang · Chọn để xem trước',open:'Mở video đầy đủ ↗'
+  };
+  const categories=[{id:'cinema',indices:[10]},{id:'product',indices:[0,4,5]},{id:'ai',indices:[6,7]},{id:'brand',indices:[1,2,3]},{id:'long',indices:[8,9]},{id:'all',indices:[10,0,4,5,6,7,1,2,3,8,9]}];
+  const cards=[...source.querySelectorAll('.card')].slice(0,11);
+  const projects=cards.map((card,index)=>{const href=card.href,driveId=href.match(/\/d\/([^/]+)/)?.[1]||'';return{index,number:String(index+1).padStart(2,'0'),href,driveId}});
+  const showcase=document.createElement('div');
+  showcase.className='portfolio-showcase portfolio-showcase-v2';
+  showcase.innerHTML='<div class="portfolio-filters" role="tablist"></div><p class="portfolio-category-note"></p><div class="portfolio-stage"><div class="portfolio-player"><span class="portfolio-preview-badge"></span><iframe loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="portfolio-detail"><span class="portfolio-detail-index"></span><h3></h3><p></p><a class="button" target="_blank" rel="noreferrer"></a></div></div><div class="portfolio-library-head"><h3></h3><p></p></div><div class="portfolio-rail"></div>';
+  source.classList.add('portfolio-source');
+  source.insertAdjacentElement('beforebegin',showcase);
+  const filters=showcase.querySelector('.portfolio-filters'),note=showcase.querySelector('.portfolio-category-note'),rail=showcase.querySelector('.portfolio-rail'),iframe=showcase.querySelector('iframe'),detailIndex=showcase.querySelector('.portfolio-detail-index'),detailTitle=showcase.querySelector('.portfolio-detail h3'),detailDescription=showcase.querySelector('.portfolio-detail p'),detailLink=showcase.querySelector('.portfolio-detail .button');
+  let language=localStorage.getItem('portfolio-language')==='vi'?'vi':'en',activeCategory='cinema',activeIndex=10;
+  const copy=()=>language==='vi'?vi:en;
+  const orderedProjects=category=>category.indices.map(index=>projects[index]).filter(Boolean);
+  const selectProject=project=>{
+    activeIndex=project.index;const text=copy();
+    if(iframe.dataset.project!==String(project.index)){iframe.src=project.driveId?`https://drive.google.com/file/d/${project.driveId}/preview`:project.href;iframe.dataset.project=project.index;}
+    iframe.title=`${text.titles[project.index]} video preview`;detailIndex.textContent=`${project.number} / ${text.types[project.index]}`;detailTitle.textContent=text.titles[project.index];detailDescription.textContent=text.descriptions[project.index];detailLink.href=project.href;detailLink.textContent=text.open;
+    rail.querySelectorAll('.portfolio-choice').forEach(choice=>choice.classList.toggle('is-active',Number(choice.dataset.index)===project.index));
+  };
+  const renderRail=()=>{const text=copy(),category=categories.find(item=>item.id===activeCategory),visible=orderedProjects(category);rail.innerHTML='';visible.forEach(project=>{const choice=document.createElement('button');choice.type='button';choice.className='portfolio-choice';choice.dataset.index=project.index;if(project.driveId)choice.style.backgroundImage=`url('https://drive.google.com/thumbnail?id=${project.driveId}&sz=w900')`;choice.innerHTML=`<span class="portfolio-choice-play">▶</span><span class="portfolio-choice-copy"><small>${project.number} · ${text.types[project.index]}</small><strong>${text.titles[project.index]}</strong></span>`;choice.addEventListener('click',()=>selectProject(project));rail.appendChild(choice);});selectProject(visible.find(project=>project.index===activeIndex)||visible[0]);};
+  const renderFilters=()=>{const text=copy();filters.innerHTML='';categories.forEach(category=>{const button=document.createElement('button');button.type='button';button.className=`portfolio-filter${category.id===activeCategory?' is-active':''}`;button.textContent=`${text.filters[category.id]} · ${category.indices.length}`;button.addEventListener('click',()=>{activeCategory=category.id;activeIndex=category.indices[0];renderFilters();renderLanguage();});filters.appendChild(button);});};
+  const translateStatic=()=>{const text=copy(),viMode=language==='vi';document.documentElement.lang=language;document.querySelector('.nav nav a[href="#work"]').textContent=viMode?'Dự án':'Selected Work';document.querySelector('.nav nav a[href="#contact"]').textContent=viMode?'Liên hệ':'Contact';document.querySelector('.hero .intro').textContent=viMode?'Tôi tạo video ngắn giúp các thương hiệu làm đẹp và dịch vụ thu hút sự chú ý, truyền tải giá trị rõ ràng và biến người xem thành khách hàng.':'I create short-form video that helps beauty and service brands capture attention, explain their value clearly, and turn viewers into customers.';document.querySelector('.hero .scroll').textContent=viMode?'Cuộn để xem dự án ↓':'Scroll to view selected work ↓';document.querySelector('.hero-foot .button').textContent=viMode?'Xem résumé':'View résumé';const head=workSection.querySelector('.section-head');head.querySelector('.label').textContent=viMode?'01 / Dự án tiêu biểu':'01 / Selected work';head.querySelector('h2').textContent=viMode?'Tạo ấn tượng từ giây đầu tiên—và còn đọng lại về sau.':'Built for the first second—and the lasting impression.';head.querySelector('.lede').textContent=viMode?'Video social-first gồm sản phẩm, thương hiệu, giáo dục, điện ảnh và hình ảnh hỗ trợ bởi AI.':'Hook-led, social-first edits spanning products, brand stories, education, cinematic work and AI-enhanced visuals.';showcase.querySelector('.portfolio-preview-badge').textContent=text.preview;showcase.querySelector('.portfolio-library-head h3').textContent=text.library;showcase.querySelector('.portfolio-library-head p').textContent=text.hint;note.textContent=text.categoryNotes[activeCategory];};
+  const translateExtended=()=>{
+    const viMode=language==='vi';
+    const createSection=workSection.nextElementSibling;
+    if(createSection?.classList.contains('section')){
+      const serviceTitles=viMode?['Giữ người xem dừng lại','Câu chuyện làm đẹp & dịch vụ','Không gian có câu chuyện','Tách nền','Chữ chuyển động','Ý tưởng hỗ trợ bởi AI']:['Stops the scroll','Beauty & service stories','Spaces with a story','Background removal','Words in motion','AI-enhanced ideas'];
+      const serviceDescriptions=viMode?['Reels, TikTok và nội dung founder có hook rõ ràng, nhịp tự nhiên.','Demo sản phẩm, launch, salon và spa giúp xây dựng niềm tin.','Visual tour và nội dung dịch vụ giúp không gian trở nên đáng nhớ.','Tách chủ thể sạch và bố cục sản phẩm linh hoạt hơn.','Animation chữ tạo nhịp, điểm nhấn và cá tính cho thông điệp.','Hình ảnh AI và minh họa giúp nội dung trở nên khác biệt.']:['Hook-driven Reels, TikToks and founder-led content with clear, natural pacing.','Product demos, launches, salon and spa showcases that build trust.','Visual tours and service-led content that makes a place feel memorable.','Clean cut-outs and product-led compositions for more flexible visuals.','Text animation that gives a message timing, emphasis and personality.','AI visuals and illustrative treatments that make content more distinct.'];
+      createSection.querySelector('.section-head .label').textContent=viMode?'02 / Nội dung tôi tạo':'02 / What I create';
+      createSection.querySelector('.section-head h2').textContent=viMode?'Chuyển động, dễ hiểu và đáng nhớ.':'Built to move, explain and be remembered.';
+      createSection.querySelector('.section-head .lede').textContent=viMode?'Sáu định hướng nội dung cho thương hiệu làm đẹp, founder và doanh nghiệp dịch vụ.':'Six content directions for beauty brands, founders and service businesses.';
+      createSection.querySelectorAll('.service').forEach((service,index)=>{service.querySelector('h3').textContent=serviceTitles[index];service.querySelector('p').textContent=serviceDescriptions[index];});
+    }
+    const softwareSection=document.querySelector('.software-icons')?.closest('section');
+    if(softwareSection){softwareSection.querySelector('.label').textContent=viMode?'03 / Phần mềm':'03 / Software';softwareSection.querySelector('h2').textContent=viMode?'Công cụ phía sau mỗi thước phim.':'The tools behind the edit.';}
+    const contact=document.querySelector('#contact');
+    if(contact){contact.querySelector('.label').textContent=viMode?'04 / Làm việc từ xa':'04 / Available remotely';contact.querySelector('h2').innerHTML=viMode?'Hãy cùng tạo nên nội dung <span class="signal-text">đáng nhớ.</span>':'Let’s make content <span class="signal-text">worth remembering.</span>';contact.querySelector('p').textContent=viMode?'Tôi mong muốn làm việc cùng nail artist, salon, spa, founder ngành làm đẹp và các thương hiệu sản phẩm trên toàn thế giới.':'I’m interested in working with nail artists, salons, spas, beauty founders and product brands across the world.';contact.querySelector('.contact-links .button').textContent=viMode?'Gửi email':'Email me';}
+    const footerRemote=document.querySelector('.footer span:last-child');if(footerRemote)footerRemote.textContent=viMode?'Việt Nam · Làm việc từ xa':'Vietnam · Available remotely';
+  };
+  const renderLanguage=()=>{translateStatic();translateExtended();renderRail();document.querySelectorAll('.language-switch button').forEach(button=>button.classList.toggle('is-active',button.dataset.lang===language));};
+  let switcher=document.querySelector('.language-switch');if(!switcher){switcher=document.createElement('span');switcher.className='language-switch';switcher.innerHTML='<button type="button" data-lang="en">EN</button><button type="button" data-lang="vi">VI</button>';document.querySelector('.nav nav')?.appendChild(switcher);switcher.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{language=button.dataset.lang;localStorage.setItem('portfolio-language',language);renderFilters();renderLanguage();}));}
+  rail.addEventListener('wheel',event=>{if(Math.abs(event.deltaY)>Math.abs(event.deltaX)){event.preventDefault();rail.scrollLeft+=event.deltaY;}},{passive:false});
+  renderFilters();renderLanguage();queueMicrotask(renderLanguage);
+})();
+
+/* Section 01 v3: numbered categories and individual 9:16 video previews. */
+(() => {
+  const work=document.querySelector('#work'),source=work?.querySelector('.works');
+  if(!work||!source)return;
+  work.querySelector('.portfolio-showcase')?.remove();
+  work.querySelector('.portfolio-sections-v3')?.remove();
+  const groups=[
+    {id:'cinema',number:'1.1',enTitle:'Cinema',viTitle:'Điện ảnh',enIntro:'Cinematic editing applied through sound effects, pacing, polished visual treatment and AI-assisted title design.',viIntro:'Phong cách điện ảnh được ứng dụng qua sound effect, nhịp dựng, hình ảnh chỉn chu và thiết kế tiêu đề hỗ trợ bởi AI.',videos:[
+      {id:'1Iv3C-5pg6v6sxLfrDMvPwrkF00N4S4NS',en:'BTS Final',vi:'BTS Final',enMeta:'Cinema · Sound Design',viMeta:'Điện ảnh · Thiết kế âm thanh',enDesc:'A behind-the-scenes-to-final breakdown showing how sound effects, pacing and layered editing create atmosphere and emotional impact.',viDesc:'Từ hậu trường đến thành phẩm, video cho thấy sound effect, nhịp dựng và các lớp edit tạo không khí cùng cảm xúc như thế nào.'},
+      {id:'10c16W5O_w5wahrPBuZdLD-kgoIBAz_YS',en:'Cinematic Hook & AI Title',vi:'Hook điện ảnh & Tiêu đề AI',enMeta:'Hook · Polish · AI Title',viMeta:'Hook · Chỉn chu · Tiêu đề AI',enDesc:'A polished cinematic edit using a strong opening hook and AI-assisted title treatment to establish the story immediately.',viDesc:'Video điện ảnh chỉn chu, dùng hook mạnh ngay phần mở đầu và ứng dụng AI để tạo tiêu đề dẫn vào câu chuyện.'}
+    ]},
+    {id:'product',number:'1.2',enTitle:'Product Videos',viTitle:'Video sản phẩm',enIntro:'Product edits that make texture, function and desirability clear within the first seconds.',viIntro:'Video sản phẩm làm rõ chất liệu, công dụng và sức hút ngay từ những giây đầu.',videos:[
+      {id:'1vVkVX7Gotg5o3pJ1VYxlPkwhj_Qka0Zq',en:'Highlighter',vi:'Highlighter',enMeta:'Beauty Product',viMeta:'Sản phẩm làm đẹp',enDesc:'A concise beauty edit focused on texture, finish and product appeal.',viDesc:'Video làm đẹp ngắn gọn, tập trung vào chất liệu, độ bắt sáng và sức hút sản phẩm.'},
+      {id:'17OkOef187QdrfkpJgdlxpNptMY-uZiHg',en:'Cleaning Wax',vi:'Sáp vệ sinh cọ',enMeta:'Product Demonstration',viMeta:'Giới thiệu sản phẩm',enDesc:'A hook-led demonstration that explains product value quickly and clearly.',viDesc:'Video demo mở đầu bằng hook, giải thích nhanh và rõ giá trị của sản phẩm.'},
+      {id:'1M_v6pVBKNP8zSYZr1rTYlaVFrCtjFWbW',en:'Blush',vi:'Blush',enMeta:'Authentic Review',viMeta:'Review chân thực',enDesc:'A first-try beauty review balancing natural reaction with polished presentation.',viDesc:'Review làm đẹp lần đầu, cân bằng giữa phản ứng tự nhiên và hình ảnh chỉn chu.'}
+    ]},
+    {id:'ai',number:'1.3',enTitle:'AI Applications',viTitle:'Ứng dụng AI',enIntro:'AI is used as a practical production tool for titles, cut-outs, motion graphics, visual fills and illustration.',viIntro:'AI được dùng như công cụ sản xuất thực tế cho tiêu đề, tách nền, graphic motion, video trám và minh họa.',videos:[
+      {id:'1XUihp--jaXbWGkajvt06P3kDoezyi7Dy',en:'AI Remotion',vi:'AI Remotion',enMeta:'AI Motion · Education',viMeta:'Chuyển động AI · Giáo dục',enDesc:'AI-assisted motion and explanatory visuals used to make information easier to follow.',viDesc:'Motion và hình ảnh giải thích hỗ trợ bởi AI giúp thông tin dễ theo dõi hơn.'},
+      {id:'1ygPqyQE3SAsqQnfmE-NIAb-819PTtOz9',en:'Founder Introduction',vi:'Giới thiệu founder',enMeta:'AI Title · Cut-out · Motion',viMeta:'Tiêu đề AI · Tách nền · Motion',enDesc:'AI supports title creation, background removal, graphic motion and visual fill shots within a founder-led brand story.',viDesc:'AI hỗ trợ tạo tiêu đề, tách nền, graphic motion và video trám trong câu chuyện giới thiệu founder.'},
+      {id:'1QgDpshjIyQAPakgfjSRZEsE_HKdPdyn3',en:'AI Visual Enhancement',vi:'Tăng cường hình ảnh bằng AI',enMeta:'Illustration · Cut-out · Caption',viMeta:'Minh họa · Tách nền · Chú thích',enDesc:'AI-generated illustration, background removal, titles and captions are combined to enrich the edit.',viDesc:'Minh họa AI, tách nền, tiêu đề và chú thích được kết hợp để làm video trực quan và phong phú hơn.'}
+    ]},
+    {id:'brand',number:'1.4',enTitle:'Brand Introduction',viTitle:'Giới thiệu thương hiệu',enIntro:'Three ways to introduce a brand through identity, space and the founder behind it.',viIntro:'Ba cách giới thiệu thương hiệu qua nhận diện, không gian và founder phía sau brand.',videos:[
+      {id:'1-kVEUw0zRyz5Gk-Ab9iIsvnD5HV1s3xI',en:'La Caja Buena',vi:'La Caja Buena',enMeta:'Brand Identity',viMeta:'Nhận diện thương hiệu',enDesc:'A narrative-led introduction balancing visual rhythm, message and brand personality.',viDesc:'Video giới thiệu cân bằng nhịp hình, thông điệp và cá tính thương hiệu.'},
+      {id:'10KnI8xxZNbs1CYG9c9hcglBASgrbofLj',en:'Spa Space',vi:'Không gian spa',enMeta:'Brand Experience',viMeta:'Trải nghiệm thương hiệu',enDesc:'A sensory introduction that lets viewers feel the space and service before booking.',viDesc:'Giới thiệu giàu cảm giác, giúp người xem hình dung không gian và dịch vụ trước khi đặt lịch.'},
+      {id:'1ygPqyQE3SAsqQnfmE-NIAb-819PTtOz9',en:'Founder Introduction',vi:'Giới thiệu founder',enMeta:'Founder Story',viMeta:'Câu chuyện founder',enDesc:'A founder-led introduction connecting the person, purpose and personality behind the brand.',viDesc:'Video kết nối con người, mục tiêu và cá tính phía sau thương hiệu.'}
+    ]},
+    {id:'education',number:'1.5',enTitle:'Educational Videos',viTitle:'Video giáo dục',enIntro:'Educational edits designed for clarity, retention and accessible visual explanation.',viIntro:'Video giáo dục được dựng để rõ ràng, dễ ghi nhớ và giải thích trực quan.',videos:[
+      {id:'12-WAnTKS-MoKvf2VWhXmRcTfWgNCoxvI',en:'2.mp4',vi:'2.mp4',enMeta:'Visual Education',viMeta:'Giáo dục trực quan',enDesc:'A structured visual explainer that turns information into an approachable learning sequence.',viDesc:'Video giải thích có cấu trúc, biến thông tin thành một trình tự học trực quan và dễ tiếp cận.'},
+      {id:'1XUihp--jaXbWGkajvt06P3kDoezyi7Dy',en:'AI Remotion',vi:'AI Remotion',enMeta:'AI-assisted Education',viMeta:'Giáo dục hỗ trợ bởi AI',enDesc:'AI motion and visual cues support comprehension and keep educational content engaging.',viDesc:'Motion AI và các tín hiệu hình ảnh hỗ trợ việc tiếp thu, đồng thời giữ nội dung giáo dục hấp dẫn.'}
+    ]}
+  ];
+  const shell=document.createElement('div');shell.className='portfolio-sections-v3';shell.innerHTML='<div class="portfolio-v3-menu"></div><div class="portfolio-v3-content"></div>';source.classList.add('portfolio-source');source.insertAdjacentElement('beforebegin',shell);
+  const menu=shell.querySelector('.portfolio-v3-menu'),content=shell.querySelector('.portfolio-v3-content');
+  let language=localStorage.getItem('portfolio-language')==='vi'?'vi':'en',active='all';
+  const render=()=>{
+    const vi=language==='vi';menu.innerHTML='';
+    [{id:'all',label:vi?'Tất cả':'All'},...groups.map(group=>({id:group.id,label:`${group.number} ${vi?group.viTitle:group.enTitle}`}))].forEach(item=>{const button=document.createElement('button');button.type='button';button.className=`portfolio-v3-filter${active===item.id?' is-active':''}`;button.textContent=item.label;button.addEventListener('click',()=>{active=item.id;render();});menu.appendChild(button);});
+    content.innerHTML='';groups.forEach(group=>{const section=document.createElement('section');section.className='portfolio-v3-group';section.hidden=active!=='all'&&active!==group.id;section.innerHTML=`<div class="portfolio-v3-head"><span class="portfolio-v3-number">${group.number}</span><div><h3>${vi?group.viTitle:group.enTitle}</h3><p>${vi?group.viIntro:group.enIntro}</p></div></div><div class="portfolio-v3-grid"></div>`;const grid=section.querySelector('.portfolio-v3-grid');group.videos.forEach((video,index)=>{const card=document.createElement('article');card.className='portfolio-v3-card';const title=vi?video.vi:video.en,meta=vi?video.viMeta:video.enMeta,desc=vi?video.viDesc:video.enDesc;card.innerHTML=`<div class="portfolio-v3-preview"><span class="portfolio-v3-badge">${group.number}.${index+1} · ${vi?'XEM TRƯỚC':'PREVIEW'}</span><iframe src="https://drive.google.com/file/d/${video.id}/preview" title="${title}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div><div class="portfolio-v3-copy"><small>${meta}</small><h4>${title}</h4><p>${desc}</p><a href="https://drive.google.com/file/d/${video.id}/view" target="_blank" rel="noreferrer">${vi?'Mở video đầy đủ ↗':'Open full video ↗'}</a></div>`;grid.appendChild(card);});content.appendChild(section);});
+  };
+  document.querySelectorAll('.language-switch button').forEach(button=>button.addEventListener('click',()=>{language=button.dataset.lang;render();}));
+  render();
 })();
 
 /* Add only the annotated skills marquee before the existing Software section. */
